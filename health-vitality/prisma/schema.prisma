@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id               String               @id @default(uuid())
+  email            String               @unique
+  name             String
+  weightKg         Float
+  restingHeartRate Int?
+  homeTimezone     String               @default("UTC")
+  dailyWaterGoalMl Int                  @default(2500)
+  createdAt        DateTime             @default(now())
+
+  activities       DailyActivityLog[]
+  medications      MedicationSchedule[]
+  hydration        HydrationLog[]
+  challenges       ChallengeLog[]
+}
+
+model ChallengeLog {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  type      String   // "push-ups" | "squats"
+  reps      Int
+  completed Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model HydrationLog {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  amountMl  Int
+  createdAt DateTime @default(now())
+}
+
+model DailyActivityLog {
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+
+  startTime       DateTime
+  endTime         DateTime
+
+  activityType    String   // "walking" | "jogging" | "running"
+  distanceMiles   Float
+  averageSpeedMph Float
+  elevationGainFt Float?
+  caloriesBurned  Float
+  avgHeartRate    Int?
+
+  // Offline-first buffered tracking flag
+  isSynced        Boolean  @default(true)
+  rawGpsBuffer    String?  // JSON string of buffered GPS points when offline
+
+  createdAt       DateTime @default(now())
+}
+
+model MedicationSchedule {
+  id               String   @id @default(uuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id])
+
+  medicationName   String
+  dosage           String
+  notes            String?
+
+  // "08:00" stored in 24h format, relative to timezoneRule
+  scheduledTime    String
+  timezoneRule     String   @default("CIRCADIAN") // "ABSOLUTE" | "CIRCADIAN"
+  status           String   @default("PENDING")   // "PENDING" | "TAKEN" | "MISSED" | "SNOOZED"
+
+  lastTakenAt      DateTime?
+  createdAt        DateTime @default(now())
+}
