@@ -21,3 +21,9 @@
   - 0x1810 (Blood Pressure Service)
   - 0x1808 (Glucose Service)
 - Deduplication Matrix: Direct Hardware BLE > HealthKit > Health Connect > Manual Log
+
+## 4. Longitudinal Analytics & Time-Lagged Correlation Engine
+- Multi-cadence aggregation (24H, 7D, 30D, 90D rollups)
+- Time-lagged cross-correlation engine (e.g. late food intake vs nocturnal resting HR elevation)
+- Statistical significance filtering (p < 0.05)
+- FDA SaMD Class I non-diagnostic safety guardrails
