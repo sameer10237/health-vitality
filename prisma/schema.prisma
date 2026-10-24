@@ -1,0 +1,55 @@
+datasource db {
+  provider = "sqlite"
+}
+
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "library"
+}
+
+model User {
+  id               String          @id @default(uuid())
+  email            String          @unique
+  name             String
+  dob              String
+  sex              String
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  vitals           BiometricVital[]
+  auditLogs        AuditLog[]
+  consents         ConsentRecord[]
+}
+
+model BiometricVital {
+  id           String   @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  metricType   String   // 'HR', 'BP_SYS', 'BP_DIA', 'GLUCOSE', 'SPO2', 'RECOVERY', 'WATER', 'STEPS'
+  value        Float
+  unit         String
+  contextTag   String?  // 'Fasting', 'Post-Prandial', etc.
+  source       String   // 'BLE', 'HEALTHKIT', 'MANUAL'
+  recordedAt   DateTime @default(now())
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  event      String   // 'PHI_READ', 'BLE_TELEMETRY_INGEST', 'CONSENT_VERIFY', 'CRYPTO_SHRED'
+  detail     String
+  keyId      String
+  ipAddress  String
+  hash       String   // HMAC-SHA256 signature
+  createdAt  DateTime @default(now())
+}
+
+model ConsentRecord {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  consentType   String   // 'HIPAA_PHI', 'GDPR_ART9', 'TERMS'
+  isGranted     Boolean  @default(true)
+  policyVersion String
+  createdAt     DateTime @default(now())
+}
