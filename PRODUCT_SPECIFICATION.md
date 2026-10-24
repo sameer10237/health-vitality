@@ -27,3 +27,10 @@
 - Time-lagged cross-correlation engine (e.g. late food intake vs nocturnal resting HR elevation)
 - Statistical significance filtering (p < 0.05)
 - FDA SaMD Class I non-diagnostic safety guardrails
+
+## 5. Zero-Trust Data Security & Regulatory Compliance Blueprint
+- End-to-End Encryption (E2EE) with AES-256-GCM Envelope Encryption (DEK/KEK)
+- TLS 1.3 Strict Mode with Certificate Pinning
+- PostgreSQL Row-Level Security (RLS) tenant isolation
+- HIPAA Â§ 164.312(b) WORM immutable audit trail
+- GDPR Article 17 Cryptographic Shredding
