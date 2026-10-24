@@ -34,3 +34,9 @@
 - PostgreSQL Row-Level Security (RLS) tenant isolation
 - HIPAA Â§ 164.312(b) WORM immutable audit trail
 - GDPR Article 17 Cryptographic Shredding
+
+## 6. UX/UI Principles & Accessibility
+- WCAG 2.1 AA/AAA compliance with high-contrast text ratios (4.5:1 / 7:1)
+- Color-safe dual encoding for clinical indicators (icons + text + color)
+- Touch targets >= 48x48 dp
+- Low-friction biometric data entry
