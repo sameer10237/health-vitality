@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Health & Vitality — Smart Activity & Medication Tracker",
-  description:
-    "A 2026 health platform tracking activity burn (Walking/Jogging/Running) with MET-based calorie math, smart medication reminders with timezone intelligence, and an AI Health Concierge that connects your workout to your pill schedule.",
+  title: "Vitalis | HIPAA & GDPR Compliant Health Telemetry",
+  description: "Enterprise-grade digital health cockpit uniting continuous biometric telemetry, clinical vitals, and physician-ready analytics.",
 };
 
 export default function RootLayout({
@@ -13,8 +12,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" className="dark">
+      <body className="min-h-screen bg-[#070b14] text-slate-100 antialiased selection:bg-emerald-500 selection:text-black">
+        {children}
+      </body>
     </html>
   );
 }
